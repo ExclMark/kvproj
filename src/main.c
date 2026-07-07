@@ -20,6 +20,13 @@ int main() {
 	char *val1 = kv_get(table, "lol");
 	char *val2 = kv_get(table, "non");
 
-	printf("\nlol = %s\n", val1);
+	printf("\nkv_get test:\nlol = %s\n", val1);
+	printf("non = %s\n", val2);
+
+	kv_delete(table, "lol");
+	val1 = NULL;
+	val1 = kv_get(table, "lol");
+
+	printf("\nkv_delete test:\nlol = %s\n", val1);
 	printf("non = %s\n", val2);
 }
