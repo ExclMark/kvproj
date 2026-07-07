@@ -29,4 +29,7 @@ int main() {
 
 	printf("\nkv_delete test:\nlol = %s\n", val1);
 	printf("non = %s\n", val2);
+
+	kv_free(table);
+	table = NULL;
 }

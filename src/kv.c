@@ -21,6 +21,34 @@ size_t hash(char* val, int capacity) {
 /*
 	params:
 	- db: pointer to the db
+	returns:
+	0 on success, 
+	-1 on error
+*/
+void kv_free(kv_t *db) {
+	if (!db) return;
+
+	for (int i = 0; i < db->capacity - 1; i++) {
+		kv_entry_t *entry = &db->entries[i];
+
+		if (entry->key && entry->key != (void*)TOMBSTONE) {
+			free(entry->key);
+			free(entry->value);
+			entry->key = NULL;
+			entry->value = NULL;
+			db->count--;
+		}
+	}
+
+	free(db->entries);
+	free(db);
+
+	return;
+}
+
+/*
+	params:
+	- db: pointer to the db
 	- key: pointer to the key value
 	returns:
 	0 on success, 
@@ -108,6 +136,7 @@ int kv_put(kv_t *db, char *key, char *value) {
 		if (entry->key && entry->key != (void*)TOMBSTONE && !strcmp(entry->key, key)) {
 			char *new_val = strdup(value);
 			if (!new_val) return -1;
+			free(entry->value);
 			entry->value = new_val;
 
 			return 0;
