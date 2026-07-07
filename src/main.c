@@ -16,4 +16,10 @@ int main() {
 			printf("[%d] %s: %s\n", i, table->entries[i].key, table->entries[i].value);
 		}
 	}
+
+	char *val1 = kv_get(table, "lol");
+	char *val2 = kv_get(table, "non");
+
+	printf("\nlol = %s\n", val1);
+	printf("non = %s\n", val2);
 }
